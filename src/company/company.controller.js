@@ -110,6 +110,60 @@ export const filterCompanies = async (req, res) => {
 };
 
 
+export const updateCompany = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        //desestructuramos los objetos del req.body de publicacion.
+        const { name, email, phone, levelImpact, yearsOfExperience, category } = req.body;
+        const user = req.usuario
+
+        const company = await Company.findById(id);
+
+        if (!company) {
+            return res.status(404).json({
+                success: false,
+                msg: "Empresa no encontrada",
+            });
+        }
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado"
+            })
+        }
+
+        company.name = name || company.name;
+        company.email = email || company.email;
+        company.phone = phone || company.phone;
+        company.levelImpact = levelImpact || company.levelImpact;
+        company.yearsOfExperience = yearsOfExperience || company.yearsOfExperience;
+        company.category = category || company.category;
+
+        await company.save();
+
+        res.status(200).json({
+            success: true,
+            msg: 'Empresa actualizada.',
+            company
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al editar la empresa.', error: error.message });
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -26,5 +26,14 @@ export const getCompanyValidator = [
     handleErrors
 ]
 
+export const updateCompanyValidator = [
+    validateJWT,
+    //Utilizamos el metodo para validar o permitir varios roles.
+    hasRoles("ADMIN_ROLE"),
+    param("id", "No es un ID válido").isMongoId(),
+    param("id").custom(companyExist),
+    validarCampos,
+    handleErrors
+]
 
 
