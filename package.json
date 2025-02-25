@@ -14,6 +14,7 @@
   "description": "Sistema de gestion de empresas.",
   "dependencies": {
     "argon2": "^0.41.1",
+    "coperex": "file:",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "exceljs": "^4.4.0",
