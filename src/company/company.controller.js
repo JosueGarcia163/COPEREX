@@ -1,5 +1,6 @@
 import { hash, verify } from "argon2";
 import Company from "./company.model.js"
+import { generateExcel } from "../helpers/excel.validators.js";
 
 export const createCompany = async (req, res) => {
     try {
@@ -66,9 +67,18 @@ export const filterCompanies = async (req, res) => {
         if (minYears || maxYears) {
             query.yearsOfExperience = {};
             //$gte es una funcion que por sus siglas significa Greater than or equal
-            if (minYears) query.yearsOfExperience.$gte = parseInt(minYears);
+            if (minYears) {
+                query.yearsOfExperience.$gte = parseInt(minYears);
+            }
             //$lte es una funcion de mongo que significa less than or equal 
-            if (maxYears) query.yearsOfExperience.$lte = parseInt(maxYears);
+            if (maxYears) {
+                query.yearsOfExperience.$lte = parseInt(maxYears);
+            } else {
+                return res.status(400).json({
+                    success: false,
+                    message: "Caracteres no validos."
+                });
+            }
         }
 
         //Creo este objeto para definir dentro de el los criterios que tendremos para listar en este caso la categoria.
@@ -152,6 +162,72 @@ export const updateCompany = async (req, res) => {
         res.status(500).json({ message: 'Error al editar la empresa.', error: error.message });
     }
 };
+
+/*
+export const filterCompanies = async (req, res) => {
+    try {
+        const query = { status: true };
+        const { minYears, maxYears, categoryOrder, downloadExcel } = req.body;
+
+        if (minYears || maxYears) {
+            query.yearsOfExperience = {};
+            if (minYears) query.yearsOfExperience.$gte = parseInt(minYears);
+            if (maxYears) query.yearsOfExperience.$lte = parseInt(maxYears);
+        }
+
+        let sortOptions = {};
+        if (categoryOrder) {
+            if (categoryOrder === "asc") {
+                sortOptions.category = 1;
+            } else if (categoryOrder === "desc") {
+                sortOptions.category = -1;
+            } else {
+                return res.status(400).json({
+                    success: false,
+                    message: "Caracteres no válidos. Use 'asc' para A-Z o 'desc' para Z-A."
+                });
+            }
+        }
+
+        const companies = await Company.find(query).sort(sortOptions);
+
+      
+        if (downloadExcel) {
+            const excelBuffer = await generateExcel(companies);
+
+            res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            res.setHeader("Content-Disposition", "attachment; filename=empresas.xlsx");
+
+            return res.send(excelBuffer);
+        }
+
+       
+        return res.status(200).json({
+            success: true,
+            companies
+        });
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: "Error al obtener las empresas",
+            error: err.message
+        });
+    }
+};
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
