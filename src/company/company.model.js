@@ -52,11 +52,11 @@ companySchema.pre("save", function (next) {
     }
     next();
 });
-/*
-//Se ejecuta si se utiliza find o findOne y el resultado de la consulta se guarda en docs
+
+
 const updateYearsOfExperience = function (docs) {
     //const currentYear = new Date().getFullYear();
-    const currentYear = 2026
+    const currentYear = 2027
     if (Array.isArray(docs)) {
         docs.forEach(doc => {
             if (doc.yearOfFoundation) {
@@ -75,7 +75,7 @@ companySchema.post("find", function (docs) {
 companySchema.post("findOne", function (doc) {
     updateYearsOfExperience(doc);
 });
-*/
+
 
 
 export default model("Company", companySchema)

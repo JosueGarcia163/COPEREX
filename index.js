@@ -8,6 +8,7 @@ const startServer = async () => {
         await initServer();
         //Llamamos la funcion de crear un usuario.
         await createDefaultUser();
+        
     } catch (error) {
         console.error("Error al iniciar el servidor:", error);
     }

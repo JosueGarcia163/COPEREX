@@ -4,9 +4,7 @@ import express from "express"
 import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
-import cron from 'node-cron';
 import { dbConnection } from "./mongo.js"
-import Company from "../src/company/company.model.js"
 import authRoutes from "../src/auth/auth.routes.js"
 import companyRoutes from "../src/company/company.routes.js"
 import apiLimiter from "../src/middlewares/rate-limit-validator.js"
@@ -51,35 +49,6 @@ const conectarDB = async () => {
         process.exit(1)
     }
 }
-
-async function updateYearsOfExperience() {
-cron.schedule('0 0 1 1 *', async () => {
-    console.log('Cronjob ejecutado: Actualizando años de experiencia...');
-    const currentYear = new Date().getFullYear();
-    try {
-        await Company.updateMany(
-            {}, 
-            [
-                {
-                    $set: {
-                        yearsOfExperience: { $subtract: [currentYear, "$yearOfFoundation"] }
-                    }
-                }
-            ]
-        );
-        console.log('Años de experiencia actualizados en todos los documentos.');
-    } catch (error) {
-        console.error('Error al actualizar los años de experiencia:', error);
-    }
-});
-}
-
-updateYearsOfExperience();
-
-cron.schedule('0 0 1 1 *', async () => {
-    console.log('Cronjob ejecutado: Actualizando años de experiencia...');
-    await updateYearsOfExperience();
-});
 
 export const initServer = () => {
     const app = express()
