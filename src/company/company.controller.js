@@ -58,11 +58,55 @@ export const getCompany = async (req, res) => {
     }
 }
 
+
+export const updateCompany = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        //desestructuramos los objetos del req.body de empresa.
+        const { name, email, phone, levelImpact, yearsOfExperience, category } = req.body;
+        const user = req.usuario
+
+        const company = await Company.findById(id);
+
+        if (!company) {
+            return res.status(404).json({
+                success: false,
+                msg: "Empresa no encontrada",
+            });
+        }
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado"
+            })
+        }
+
+        company.name = name || company.name;
+        company.email = email || company.email;
+        company.phone = phone || company.phone;
+        company.levelImpact = levelImpact || company.levelImpact;
+        company.yearsOfExperience = yearsOfExperience || company.yearsOfExperience;
+        company.category = category || company.category;
+
+        await company.save();
+
+        res.status(200).json({
+            success: true,
+            msg: 'Empresa actualizada.',
+            company
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al editar la empresa.', error: error.message });
+    }
+};
+
+
 export const filterCompanies = async (req, res) => {
     try {
         const query = { status: true };
-        const { minYears, maxYears, categoryOrder } = req.body;
-
+        const { minYears, maxYears, categoryOrder, downloadExcel } = req.body;
 
         if (minYears || maxYears) {
             query.yearsOfExperience = {};
@@ -106,102 +150,22 @@ export const filterCompanies = async (req, res) => {
         */
         const companies = await Company.find(query).sort(sortOptions);
 
-        return res.status(200).json({
-            success: true,
-            companies
-        });
-    } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: "Error al obtener las empresas",
-            error: err.message
-        });
-    }
-};
 
-
-export const updateCompany = async (req, res) => {
-    try {
-
-        const { id } = req.params;
-        //desestructuramos los objetos del req.body de publicacion.
-        const { name, email, phone, levelImpact, yearsOfExperience, category } = req.body;
-        const user = req.usuario
-
-        const company = await Company.findById(id);
-
-        if (!company) {
-            return res.status(404).json({
-                success: false,
-                msg: "Empresa no encontrada",
-            });
-        }
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "Usuario no encontrado"
-            })
-        }
-
-        company.name = name || company.name;
-        company.email = email || company.email;
-        company.phone = phone || company.phone;
-        company.levelImpact = levelImpact || company.levelImpact;
-        company.yearsOfExperience = yearsOfExperience || company.yearsOfExperience;
-        company.category = category || company.category;
-
-        await company.save();
-
-        res.status(200).json({
-            success: true,
-            msg: 'Empresa actualizada.',
-            company
-        });
-    } catch (error) {
-        res.status(500).json({ message: 'Error al editar la empresa.', error: error.message });
-    }
-};
-
-/*
-export const filterCompanies = async (req, res) => {
-    try {
-        const query = { status: true };
-        const { minYears, maxYears, categoryOrder, downloadExcel } = req.body;
-
-        if (minYears || maxYears) {
-            query.yearsOfExperience = {};
-            if (minYears) query.yearsOfExperience.$gte = parseInt(minYears);
-            if (maxYears) query.yearsOfExperience.$lte = parseInt(maxYears);
-        }
-
-        let sortOptions = {};
-        if (categoryOrder) {
-            if (categoryOrder === "asc") {
-                sortOptions.category = 1;
-            } else if (categoryOrder === "desc") {
-                sortOptions.category = -1;
-            } else {
-                return res.status(400).json({
-                    success: false,
-                    message: "Caracteres no válidos. Use 'asc' para A-Z o 'desc' para Z-A."
-                });
-            }
-        }
-
-        const companies = await Company.find(query).sort(sortOptions);
-
-      
         if (downloadExcel) {
+            //llamo a la funcion generateExcel la cual recibe companies osea los datos de listar ya de con los filtros que se hayan aplicado
             const excelBuffer = await generateExcel(companies);
 
+            //Aqui le indicamos al navegador que la respuesta es un archivo de Excel.
             res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            /*tambien dentro de Content-Disposition le indicamos con: attachment que descargue el archivo, con filaname 
+            le doy el nombre al archivo que debe tener el archivo al momento de descargarse*/
             res.setHeader("Content-Disposition", "attachment; filename=empresas.xlsx");
 
+            //Enviamos el contenido del archivo como respuesta http por medio de send que es un metodo de express.
             return res.send(excelBuffer);
         }
 
-       
+
         return res.status(200).json({
             success: true,
             companies
@@ -214,7 +178,7 @@ export const filterCompanies = async (req, res) => {
         });
     }
 };
-*/
+
 
 
 
