@@ -24,7 +24,7 @@ const companySchema = Schema({
     },
     yearsOfExperience: {
         type: Number,
-        required: true,
+        default: 0,
         min: 0
     },
     category: {
@@ -35,9 +35,9 @@ const companySchema = Schema({
         type: Boolean,
         default: true
     },
-    lastUpdated: {
-        type: Number
-
+    yearOfFoundation: {
+        type: Number,
+        required: true
     }
 },
     {
@@ -45,46 +45,37 @@ const companySchema = Schema({
         timestamps: true
     })
 
-//Se ejecuta si se utiliza find o findOne y el resultado de la consulta se guarda en docs
-companySchema.post(["find", "findOne"], async function (docs) {
-    
-    //const currentYear = new Date().getFullYear();
-    const currentYear = 2028
-
-    
-    if (Array.isArray(docs)) {
-        
-        for (const doc of docs) {
-            
-            if (!doc.lastUpdated || doc.lastUpdated !== currentYear) {
-                const yearsSinceCreated = currentYear - doc.createdAt.getFullYear();
-                
-                doc.yearsOfExperience += yearsSinceCreated;
-
-                
-                doc.lastUpdated = currentYear;  
-             
-
-                // Guardamos los cambios en la base de datos
-                await doc.save();
-            }
-        }
-
-        //Si docs no es un array osea se utilo la funcion findOne.
-    } else if (docs) {
-
-        const yearsSinceCreated = currentYear - docs.createdAt.getFullYear();
-
-        
-        if (!docs.lastUpdated || docs.lastUpdated !== currentYear) {
-            docs.yearsOfExperience = docs.yearsOfExperience + yearsSinceCreated;
-            docs.lastUpdated = currentYear;  
-
-            await docs.save();  
-        }
+companySchema.pre("save", function (next) {
+    const currentYear = new Date().getFullYear();
+    if (this.yearOfFoundation) {
+        this.yearsOfExperience = currentYear - this.yearOfFoundation;
     }
+    next();
+});
+/*
+//Se ejecuta si se utiliza find o findOne y el resultado de la consulta se guarda en docs
+const updateYearsOfExperience = function (docs) {
+    //const currentYear = new Date().getFullYear();
+    const currentYear = 2026
+    if (Array.isArray(docs)) {
+        docs.forEach(doc => {
+            if (doc.yearOfFoundation) {
+                doc.yearsOfExperience = currentYear - doc.yearOfFoundation;
+            }
+        });
+    } else if (docs && docs.yearOfFoundation) {
+        docs.yearsOfExperience = currentYear - docs.yearOfFoundation;
+    }
+};
+
+companySchema.post("find", function (docs) {
+    updateYearsOfExperience(docs);
 });
 
+companySchema.post("findOne", function (doc) {
+    updateYearsOfExperience(doc);
+});
+*/
 
 
 export default model("Company", companySchema)

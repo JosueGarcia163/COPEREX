@@ -6,7 +6,7 @@ export const createCompany = async (req, res) => {
     try {
 
         //desestructuramos los objetos del req.body de publicacion.
-        const { name, email, phone, levelImpact, yearsOfExperience, category } = req.body;
+        const { name, email, phone, levelImpact, yearOfFoundation, category } = req.body;
         const user = req.usuario
 
         if (!user) {
@@ -21,7 +21,7 @@ export const createCompany = async (req, res) => {
             email,
             phone,
             levelImpact,
-            yearsOfExperience,
+            yearOfFoundation,
             category
         });
 
@@ -64,7 +64,7 @@ export const updateCompany = async (req, res) => {
 
         const { id } = req.params;
         //desestructuramos los objetos del req.body de empresa.
-        const { name, email, phone, levelImpact, yearsOfExperience, category } = req.body;
+        const { name, email, phone, levelImpact, yearOfFoundation, category } = req.body;
         const user = req.usuario
 
         const company = await Company.findById(id);
@@ -87,7 +87,7 @@ export const updateCompany = async (req, res) => {
         company.email = email || company.email;
         company.phone = phone || company.phone;
         company.levelImpact = levelImpact || company.levelImpact;
-        company.yearsOfExperience = yearsOfExperience || company.yearsOfExperience;
+        company.yearOfFoundation = yearOfFoundation || company.yearOfFoundation;
         company.category = category || company.category;
 
         await company.save();
