@@ -169,7 +169,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MwMThhMjFhYmZmOTYzNTJhYmI3OTgiLCJpYXQiOjE3NDA2NDI0NzUsImV4cCI6MTc0MDY0NjA3NX0._9NbV4ugFE5tM03njoSddnR1Ohhvo0ul3Fw0cm7upWQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhiY2I2YmM3OTRmMTM4YzZjMjgiLCJpYXQiOjE3NDA3MzI2MjAsImV4cCI6MTc0MDczNjIyMH0.SLyIHIKPbs7CR5_o38lpeW0J8AW15oSopJ98nJflMoo",
 									"type": "string"
 								}
 							]
@@ -213,7 +213,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MwMThhMjFhYmZmOTYzNTJhYmI3OTgiLCJpYXQiOjE3NDA2NDI0NzUsImV4cCI6MTc0MDY0NjA3NX0._9NbV4ugFE5tM03njoSddnR1Ohhvo0ul3Fw0cm7upWQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhiY2I2YmM3OTRmMTM4YzZjMjgiLCJpYXQiOjE3NDA3MzI2MjAsImV4cCI6MTc0MDczNjIyMH0.SLyIHIKPbs7CR5_o38lpeW0J8AW15oSopJ98nJflMoo",
 									"type": "string"
 								}
 							]
@@ -257,7 +257,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MwMThhMjFhYmZmOTYzNTJhYmI3OTgiLCJpYXQiOjE3NDA2NDI0NzUsImV4cCI6MTc0MDY0NjA3NX0._9NbV4ugFE5tM03njoSddnR1Ohhvo0ul3Fw0cm7upWQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhiY2I2YmM3OTRmMTM4YzZjMjgiLCJpYXQiOjE3NDA3MzI2MjAsImV4cCI6MTc0MDczNjIyMH0.SLyIHIKPbs7CR5_o38lpeW0J8AW15oSopJ98nJflMoo",
 									"type": "string"
 								}
 							]
@@ -266,7 +266,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"minYears\": 1,\r\n  \"maxYears\": 100,\r\n  \"categoryOrder\": \"asc\"\r\n}\r\n",
+							"raw": "{\r\n  \"minYears\": 1,\r\n  \"maxYears\": 100,\r\n  \"categoryOrder\": \"asc\",\r\n  \"downloadExcel\": false\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -301,7 +301,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MwMThhMjFhYmZmOTYzNTJhYmI3OTgiLCJpYXQiOjE3NDA2NDI0NzUsImV4cCI6MTc0MDY0NjA3NX0._9NbV4ugFE5tM03njoSddnR1Ohhvo0ul3Fw0cm7upWQ",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhiY2I2YmM3OTRmMTM4YzZjMjgiLCJpYXQiOjE3NDA3MzI2MjAsImV4cCI6MTc0MDczNjIyMH0.SLyIHIKPbs7CR5_o38lpeW0J8AW15oSopJ98nJflMoo",
 									"type": "string"
 								}
 							]
@@ -310,7 +310,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"ESKIBIDI EMPRESA EDITADA\",\r\n    \"email\": \"skibidiEDIT@gmail.com\",\r\n    \"phone\": \"58963247\",\r\n    \"levelImpact\": \"Medio\",\r\n    \"category\": \"ZEDIT.\",\r\n    \"yearOfFoundation\": 2019\r\n}\r\n",
+							"raw": "{\r\n  \"name\": \"ESKIBIDI EMPRESA EDITADA\",\r\n    \"email\": \"skibidiEDIT@gmail.com\",\r\n    \"phone\": \"58963247\",\r\n    \"levelImpact\": \"Medio\",\r\n    \"category\": \"CEDIT.\",\r\n    \"yearOfFoundation\": 2019\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -318,7 +318,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:3001/managerCompanies/v1/company/updateCompany/67c018c21abff96352abb79f",
+							"raw": "http://127.0.0.1:3001/managerCompanies/v1/company/updateCompany/67c17905b6bc794f138c6c35",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -332,7 +332,7 @@
 								"v1",
 								"company",
 								"updateCompany",
-								"67c018c21abff96352abb79f"
+								"67c17905b6bc794f138c6c35"
 							]
 						}
 					},

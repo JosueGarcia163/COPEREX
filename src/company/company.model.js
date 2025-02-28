@@ -86,8 +86,8 @@ companySchema.pre("findOneAndUpdate", async function (next) {
 
 const updateYearsOfExperience = async function (doc) {
     if (doc) {
-        // const currentYear = new Date().getFullYear();
-        const currentYear = 2028
+         const currentYear = new Date().getFullYear();
+        //const currentYear = 2026
         /*ahora a yearsOfExperienceInitial le sumo la fecha actual menos la fecha de la creacion del documento
         esto con el fin de actualizar el año de experiencia sumandole los años que han pasado despues de creado 
         el documento o la empresa.
