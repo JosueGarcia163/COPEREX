@@ -61,14 +61,21 @@ export const getCompany = async (req, res) => {
 
 export const updateCompany = async (req, res) => {
     try {
-
         const { id } = req.params;
-        //desestructuramos los objetos del req.body de empresa.
         const { name, email, phone, levelImpact, yearOfFoundation, category } = req.body;
-        const user = req.usuario
+        const user = req.usuario;
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado"
+            });
+        }
+
+        const currentYear = new Date().getFullYear();
+
 
         const company = await Company.findById(id);
-
         if (!company) {
             return res.status(404).json({
                 success: false,
@@ -76,31 +83,49 @@ export const updateCompany = async (req, res) => {
             });
         }
 
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "Usuario no encontrado"
-            })
+        //Defino la variable que contendra los campos como el nombre, el email, el telefono etc para actualizarlos.
+        let updateData = {
+            name: name || company.name,
+            email: email || company.email,
+            phone: phone || company.phone,
+            levelImpact: levelImpact || company.levelImpact,
+            category: category || company.category,
+        };
+
+        //Si yearOfFoundation se proporciono y si es distinto al valor de la db entra al siguiente bloque.
+        if (yearOfFoundation && yearOfFoundation !== company.yearOfFoundation) {
+
+            //Cambio los datos como el año de la fundacion de la empresa se pasa a updateData.yearOfFoundation
+            updateData.yearOfFoundation = yearOfFoundation;
+            /*Hago la resta para que ahora el valor inicial de yearsOfExperienceInitial sea la resta de la fecha actual - el año de la fundacion
+            de la empresa.
+            Entonces de esta manera defino el nuevo valor inicial en base al nuevo año de fundacion proporcionado por el usuario.
+            */
+            updateData.yearsOfExperienceInitial = currentYear - yearOfFoundation;
         }
 
-        company.name = name || company.name;
-        company.email = email || company.email;
-        company.phone = phone || company.phone;
-        company.levelImpact = levelImpact || company.levelImpact;
-        company.yearOfFoundation = yearOfFoundation || company.yearOfFoundation;
-        company.category = category || company.category;
+        /*Entonces en base a lo anterior se asigna a yearsOfExperience el año de experiencia inicial mas la resta de la fecha actual y 
+        la fecha de la creacion de la empresa.*/
+        updateData.yearsOfExperience = (company.yearsOfExperienceInitial) +
+            (currentYear - company.createdAt.getFullYear());
 
-        await company.save();
+        //Actualizamos empresa segun el id proporcionado y colocamos la informacion proporcionada por el usuario.
+        const updatedCompany = await Company.findOneAndUpdate(
+            { _id: id },
+            updateData,
+            { new: true }
+        );
 
         res.status(200).json({
             success: true,
             msg: 'Empresa actualizada.',
-            company
+            company: updatedCompany
         });
     } catch (error) {
         res.status(500).json({ message: 'Error al editar la empresa.', error: error.message });
     }
 };
+
 
 
 export const filterCompanies = async (req, res) => {
