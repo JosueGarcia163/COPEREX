@@ -257,7 +257,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhiY2I2YmM3OTRmMTM4YzZjMjgiLCJpYXQiOjE3NDA3MzI2MjAsImV4cCI6MTc0MDczNjIyMH0.SLyIHIKPbs7CR5_o38lpeW0J8AW15oSopJ98nJflMoo",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhlMWI2YmM3OTRmMTM4YzZjMmQiLCJpYXQiOjE3NDA3OTg4MTgsImV4cCI6MTc0MDgwMjQxOH0.cQEg7vL2UZ2ozbdKDogiKYeRZaVR986XSvHwOVknGOA",
 									"type": "string"
 								}
 							]
@@ -333,6 +333,41 @@
 								"company",
 								"updateCompany",
 								"67c17905b6bc794f138c6c35"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2N2MxNzhiY2I2YmM3OTRmMTM4YzZjMjgiLCJpYXQiOjE3NDA3OTg2NTgsImV4cCI6MTc0MDgwMjI1OH0.FLXPqvFN-vHX0CvrriEbt0oqJlaAHAQSVeK8L74PZz4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3001/managerCompanies/v1/company/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3001",
+							"path": [
+								"managerCompanies",
+								"v1",
+								"company",
+								""
 							]
 						}
 					},

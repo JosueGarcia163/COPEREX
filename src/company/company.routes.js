@@ -27,6 +27,9 @@ const router = Router()
  *           type: string
  *           enum: ["Alto", "Medio", "Bajo"]
  *           example: "Alto"
+ *         yearsOfExperienceInitial:
+ *           type: number
+ *           example: 10
  *         yearsOfExperience:
  *           type: number
  *           example: 10
@@ -205,16 +208,16 @@ router.post("/filter", getCompanyValidator, filterCompanies)
  * /managerCompanies/v1/company/updateCompany/{id}:
  *   put:
  *     summary: Actualizar los detalles de una empresa
- *     description: Permite actualizar los detalles de una empresa existente.
+ *     description: Permite actualizar los datos de una empresa existente en el sistema.
  *     tags: [Company]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de la empresa a actualizar.
+ *         description: ID único de la empresa a actualizar.
  *         schema:
  *           type: string
- *           example: 607c72ef9e6a2a001f7a92e3
+ *           example: "607c72ef9e6a2a001f7a92e3"
  *     requestBody:
  *       required: true
  *       content:
@@ -224,26 +227,33 @@ router.post("/filter", getCompanyValidator, filterCompanies)
  *             properties:
  *               name:
  *                 type: string
+ *                 description: Nombre actualizado de la empresa.
  *                 example: "Empresa Actualizada"
  *               email:
  *                 type: string
+ *                 format: email
+ *                 description: Correo electrónico de la empresa.
  *                 example: "email@empresaactualizada.com"
  *               phone:
  *                 type: string
+ *                 description: Número de teléfono de la empresa.
  *                 example: "12345678"
  *               levelImpact:
  *                 type: string
+ *                 description: Nivel de impacto de la empresa.
  *                 enum: ["Alto", "Medio", "Bajo"]
  *                 example: "Medio"
  *               yearOfFoundation:
- *                 type: number
+ *                 type: integer
+ *                 description: Año de fundación de la empresa.
  *                 example: 2005
  *               category:
  *                 type: string
+ *                 description: Categoría de la empresa.
  *                 example: "Consultoría"
  *     responses:
  *       200:
- *         description: Empresa actualizada correctamente
+ *         description: Empresa actualizada correctamente.
  *         content:
  *           application/json:
  *             schema:
@@ -257,11 +267,47 @@ router.post("/filter", getCompanyValidator, filterCompanies)
  *                   example: "Empresa actualizada."
  *                 company:
  *                   $ref: '#/components/schemas/Company'
+ *       400:
+ *         description: Datos de entrada inválidos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   example: "Los datos proporcionados no son válidos."
  *       404:
- *         description: Empresa no encontrada
+ *         description: Empresa o usuario no encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   example: "Empresa no encontrada."
  *       500:
- *         description: Error al actualizar la empresa
+ *         description: Error interno del servidor al actualizar la empresa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   example: "Error al actualizar la empresa."
  */
+
 
 router.put("/updateCompany/:id", updateCompanyValidator,  updateCompany)
 
