@@ -19,3 +19,7 @@ si desea descargar el archivo excel, cambie el dato  "downloadExcel": false  a t
 Inicialmente tiene este dato: "categoryOrder": "asc" para ordenarlo de A - Z
 pero lo puede modificar a "categoryOrder": "desc" para ordenarlo en orden de Z - A
 
+# Si desea probar que los años de experiencia se actualizen.
+Puede irse dentro del modelo a la funcion updateYearsOfExperience y alli puede modificar const currentYear = new Date().getFullYear();
+y colocar en vez de la fecha actual, colocar un numero como 2026, 2027, etc. donde pueda observar que la funcion actualiza los años de
+experiencia al momento de listar o actualizar.
